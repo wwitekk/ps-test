@@ -17,6 +17,9 @@ const sortBySeasonDesc = (a, b) => {
   return bNum - aNum
 }
 
+const handleItems = items =>
+  items.sort(sortBySeasonDesc).filter((item, idx) => idx < 15)
+
 const ListContainer = () => {
   const [items, setItems] = useState([])
 
@@ -26,10 +29,8 @@ const ListContainer = () => {
     fetch(url)
       .then(respone => respone.json())
       .then(data => data.MRData.StandingsTable.StandingsLists)
-      // task 2. Get 30 latest winners (from season 2020 to 2006)
-      .then(items =>
-        items.sort(sortBySeasonDesc).filter((item, idx) => idx < 15)
-      )
+      // task 2. Get 15 latest winners ordered by season (from season 2020 to 2006)
+      .then(handleItems)
       .then(items =>
         items.map(item => ({
           season: item.season,
